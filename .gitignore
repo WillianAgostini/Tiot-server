@@ -1,1 +1,4 @@
 node_modules
+.DS_Store
+express/npm-debug.log
+express/server/_config.js
