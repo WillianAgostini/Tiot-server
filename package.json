@@ -1,0 +1,14 @@
+{
+  "name": "tiot-server",
+  "version": "1.0.0",
+  "description": "Servidor desenvolvido com Mosca MQTT broker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Willian Agostini",
+  "license": "ISC",
+  "dependencies": {
+    "mosca": "^2.8.3"
+  }
+}
