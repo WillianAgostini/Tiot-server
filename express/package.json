@@ -1,9 +1,9 @@
 {
-  "name": "_example",
-  "version": "0.0.0",
+  "name": "server-auth",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./server/bin/www"
+    "start": "nodemon ./server/bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -20,5 +20,8 @@
     "passport-twitter": "^1.0.3",
     "serve-favicon": "~2.3.0",
     "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
