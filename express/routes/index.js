@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const Account = require('../models/account');
+const User = require('../models/user');
 const router = express.Router();
 
 
@@ -13,7 +13,7 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', (req, res, next) => {
-    Account.register(new Account({ username : req.body.username }), req.body.password, (err, account) => {
+    User.register(new User({ username : req.body.username }), req.body.password, (err, user) => {
         if (err) {
           return res.render('register', { error : err.message });
         }
