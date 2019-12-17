@@ -10,9 +10,11 @@
   "author": "Willian Agostini",
   "license": "ISC",
   "dependencies": {
+    "mongoose": "^5.8.1",
     "mosca": "^2.8.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
   }
 }
