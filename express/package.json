@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "test": "make test"
   },
   "author": "Willian Agostini",
@@ -24,5 +24,9 @@
     "passport-local-mongoose": "^1.0.0",
     "serve-favicon": "^2.2.0",
     "should": "~2.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
   }
 }
