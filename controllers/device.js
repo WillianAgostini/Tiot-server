@@ -1,6 +1,5 @@
-const Device = require('../models/device');
-const User = require('../models/user');
-const mongoose = require('mongoose');
+const Device = require("../models/device");
+const User = require("../models/user");
 
 exports.create = function(req, res, next) {
   let device = new Device({
@@ -9,13 +8,12 @@ exports.create = function(req, res, next) {
   });
 
   device.save(err => {
-    if (err) return res.status(201).send(err.message);
-    req.user.devices.push(device);
+    if (err) return res.status(400).send(err.message);
     User.findById(req.user.id).exec(function(err, user) {
       user.devices.push(device);
       user.save(err => {
-        if (err) return res.status(201).send(err.message);
-        res.sendStatus(201);
+        if (err) return res.status(400).send(err.message);
+        res.status(201).send(device);
       });
     });
   });
@@ -26,4 +24,13 @@ exports.list = function(req, res, next) {
     if (err) res.sendStatus(404);
     res.status(200).send(devices);
   });
+};
+
+exports.getById = function(req, res, next) {
+  Device.findById(req.params.id)
+    .populate("createBy")
+    .exec(function(err, device) {
+      if (err) res.sendStatus(404);
+      res.status(200).send(device);
+    });
 };

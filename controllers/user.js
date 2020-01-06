@@ -1,8 +1,13 @@
-const User = require('../models/user');
-const mongoose = require('mongoose');
+const User = require("../models/user");
 
 exports.me = function(req, res, next) {
-  res.status(200).send(req.user);
+  User.findById(req.user.id)
+    .populate("devices")
+    .populate("packets")
+    .exec(function(err, user) {
+      if (err) res.sendStatus(404);
+      res.status(200).send(user);
+    });
 };
 
 exports.signup = function(req, res, next) {
@@ -31,6 +36,6 @@ exports.login = function(req, res, next) {
   ) {
     if (err) res.sendStatus(404);
     let token = user.generateJWT();
-    return res.status(200).send(token);
+    res.status(200).send(token);
   });
 };

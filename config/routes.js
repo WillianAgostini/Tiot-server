@@ -1,7 +1,9 @@
-var users = require('../controllers/user');
-var device = require('../controllers/device');
-var Bearer = require('permit').Bearer;
-var userModel = require('../models/user');
+var Bearer = require("permit").Bearer;
+var userModel = require("../models/user");
+
+var users = require("../controllers/user");
+var device = require("../controllers/device");
+var packet = require("../controllers/packet");
 
 const permit = new Bearer({
   basic: String,
@@ -30,11 +32,15 @@ function authenticate(req, res, next) {
 }
 
 module.exports = function(app) {
-  app.post('/signup', users.signup);
-  app.post('/login', users.login);
+  app.post("/signup", users.signup);
+  app.post("/login", users.login);
 
-  app.get('/users/me', authenticate, users.me);
+  app.get("/users/me", authenticate, users.me);
 
-  app.get('/devices/', authenticate, device.list);
-  app.post('/devices/', authenticate, device.create);
+  app.get("/devices/", authenticate, device.list);
+  app.get("/devices/:id", authenticate, device.getById);
+  app.post("/devices/", authenticate, device.create);
+
+  app.get("/packet/", authenticate, packet.list);
+  app.post("/packet/", authenticate, packet.create);
 };
