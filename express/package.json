@@ -10,11 +10,13 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-ws": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.4",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "~1.9.1",
-    "permit": "^0.2.4"
+    "permit": "^0.2.4",
+    "ws": "^7.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
