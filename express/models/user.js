@@ -10,6 +10,7 @@ const User = new Schema({
     required: true
   },
   password: String,
+  fullName: String,
   devices: [{ type: Schema.Types.ObjectId, ref: "Device" }],
   packets: [{ type: Schema.Types.ObjectId, ref: "Packet" }]
 });

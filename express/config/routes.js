@@ -14,7 +14,7 @@ const permit = new Bearer({
 function authenticate(req, res, next) {
   const token = permit.check(req);
 
-  if (!token) {
+  if (!token || token == "undefined") {
     permit.fail(res);
     return next(new Error(`Authentication required!`));
   }
@@ -40,6 +40,7 @@ module.exports = function(app) {
   app.get("/devices/", authenticate, device.list);
   app.get("/devices/:id", authenticate, device.getById);
   app.post("/devices/", authenticate, device.create);
+  app.delete("/devices/:id", authenticate, device.delete);
 
   app.get("/packet/", authenticate, packet.list);
   app.post("/packet/", authenticate, packet.create);

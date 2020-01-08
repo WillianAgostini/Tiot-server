@@ -6,23 +6,25 @@ exports.me = function(req, res, next) {
     .populate("packets")
     .exec(function(err, user) {
       if (err) res.sendStatus(404);
-      res.status(200).send(user);
+      res.status(200).json(user);
     });
 };
 
 exports.signup = function(req, res, next) {
   let password = req.body.password;
   let username = req.body.username;
+  let fullName = req.body.fullName;
 
   let user = new User({
     username: username,
-    password: password
+    password: password,
+    fullName: fullName
   });
 
   user.save(err => {
-    if (err) return res.status(201).send(err.message);
+    if (err) return res.status(400).json(err.message);
     let token = user.generateJWT();
-    res.status(201).send(token);
+    res.status(201).json({ token: token });
   });
 };
 
@@ -34,8 +36,8 @@ exports.login = function(req, res, next) {
     err,
     user
   ) {
-    if (err) res.sendStatus(404);
+    if (err || !user) return res.sendStatus(404);
     let token = user.generateJWT();
-    res.status(200).send(token);
+    res.status(200).json({ token: token });
   });
 };

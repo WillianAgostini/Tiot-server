@@ -8,6 +8,7 @@ const Device = new Schema({
     unique: true,
     required: true
   },
+  createDate: { type: Date, default: Date.now },
   createBy: { type: Schema.Types.ObjectId, ref: "User" }
 });
 Device.plugin(uniqueValidator);
