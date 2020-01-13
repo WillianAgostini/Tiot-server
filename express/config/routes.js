@@ -31,7 +31,7 @@ function authenticate(req, res, next) {
   });
 }
 
-module.exports = function(app, wss) {
+module.exports = function(app) {
   app.post("/signup", users.signup);
   app.post("/login", users.login);
 
@@ -43,7 +43,5 @@ module.exports = function(app, wss) {
   app.delete("/devices/:id", authenticate, device.delete);
 
   app.get("/packet/", authenticate, packet.list);
-  app.post("/packet/", authenticate, packet.create);
-
-  wss.on("connection", packet.monitor);
+  app.post("/packet/", packet.create);
 };

@@ -1,5 +1,7 @@
 var mosca = require("mosca");
 const axios = require("axios").default;
+var http = require("http");
+var httpServ = http.createServer();
 
 var ascoltatore = {
   //using ascoltatore
@@ -15,26 +17,39 @@ var settings = {
 };
 
 var server = new mosca.Server(settings);
+server.attachHttpServer(httpServ);
+httpServ.listen(8080);
 
 server.on("clientConnected", function(client) {
-  console.log("client connected", client.id);
+  // console.log("client connected", client.id);
 });
 
 // fired when a message is received
 server.on("published", function(packet, client) {
-  console.log("Published", packet.payload);
+  // console.log("Published", packet);
 
-  // axios
-  //   .post("/user", {
-  //     firstName: "Fred",
-  //     lastName: "Flintstone"
-  //   })
-  //   .then(function(response) {
-  //     console.log(response);
-  //   })
-  //   .catch(function(error) {
-  //     console.log(error);
-  //   });
+  if (client) {
+    let payload = String(packet.payload);
+    let userId = packet.topic.replace("tiot/", "");
+    let packs = packet.topic.split("/");
+    console.log(packs);
+    let data = {
+      payload: payload,
+      userId: packs[1],
+      deviceName: packs[2]
+    };
+
+    console.log("Published", data);
+
+    axios
+      .post("http://localhost:3000/packet", data)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 });
 
 server.on("ready", setup);
