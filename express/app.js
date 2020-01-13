@@ -4,18 +4,25 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var cors = require("cors");
-const WebSocket = require("ws");
 
 // mongoose
-mongoose.connect("mongodb://localhost/test", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false
-});
+mongoose
+  .connect("mongodb://localhost/test", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  })
+  .then(
+    () => {
+      console.log("mongoose ready to use!");
+    },
+    err => {
+      console.log(err);
+    }
+  );
 
 var app = express();
-const wss = new WebSocket.Server({ port: 8080 });
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -26,4 +33,4 @@ app.use(cors());
 
 module.exports = app;
 
-require("./config/routes")(app, wss);
+require("./config/routes")(app);
