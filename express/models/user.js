@@ -11,8 +11,8 @@ const User = new Schema({
   },
   password: String,
   fullName: String,
-  devices: [{ type: Schema.Types.ObjectId, ref: "Device" }],
-  packets: [{ type: Schema.Types.ObjectId, ref: "Packet" }]
+  devices: [{ type: Schema.Types.ObjectId, ref: "Device" }]
+  // packets: [{ type: Schema.Types.ObjectId, ref: "Packet" }]
 });
 
 User.plugin(uniqueValidator);

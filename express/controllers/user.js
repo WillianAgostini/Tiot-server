@@ -3,7 +3,6 @@ const User = require("../models/user");
 exports.me = function(req, res, next) {
   User.findById(req.user.id)
     .populate("devices")
-    .populate("packets")
     .exec(function(err, user) {
       if (err) res.sendStatus(404);
       res.status(200).json(user);
