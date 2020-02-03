@@ -4,7 +4,7 @@ const User = require("../models/user");
 exports.create = function(req, res, next) {
   let device = new Device({
     name: req.body.name,
-    createBy: req.user.id
+    user: req.user.id
   });
 
   device.save(err => {
@@ -35,7 +35,7 @@ exports.list = function(req, res, next) {
 
 exports.getById = function(req, res, next) {
   Device.findById(req.params.id)
-    .populate("createBy")
+    .populate("user")
     .exec(function(err, device) {
       if (err) res.sendStatus(404);
       res.status(200).send(device);

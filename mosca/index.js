@@ -28,28 +28,25 @@ server.on("clientConnected", function(client) {
 server.on("published", function(packet, client) {
   // console.log("Published", packet);
 
-  if (client) {
-    let payload = String(packet.payload);
-    let userId = packet.topic.replace("tiot/", "");
-    let packs = packet.topic.split("/");
-    console.log(packs);
-    let data = {
-      payload: payload,
-      userId: packs[1],
-      deviceName: packs[2]
-    };
+  if (!client) return;
 
-    console.log("Published", data);
+  let payload = String(packet.payload);
+  let topic = packet.topic.split("/");
+  console.log(topic);
 
-    axios
-      .post("http://localhost:3000/packet", data)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
+  let data = {
+    payload: payload,
+    deviceName: topic[1]
+  };
+
+  axios
+    .post("http://localhost:3000/packet", data)
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 });
 
 server.on("ready", setup);

@@ -18,7 +18,7 @@ mongoose
       console.log("mongoose ready to use!");
     },
     err => {
-      console.log(err);
+      console.error(err);
     }
   );
 
