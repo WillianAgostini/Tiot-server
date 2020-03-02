@@ -1,8 +1,8 @@
 const Packet = require("../models/packet");
 const Device = require("../models/device");
 
-exports.create = function(req, res, next) {
-  Device.findOne({ name: req.body.deviceName }).exec(function(err, device) {
+exports.create = function (req, res, next) {
+  Device.findOne({ name: req.body.deviceName }).exec(function (err, device) {
     if (err || device == null) return res.sendStatus(404);
 
     let packet = new Packet({
@@ -18,14 +18,17 @@ exports.create = function(req, res, next) {
   });
 };
 
-exports.list = function(req, res, next) {
-  var limit = -1;
-  if (req.body.limit) limit = req.body.limit;
+exports.list = function (req, res, next) {
+  let name = req.params.name;
+  limit = 12;
 
-  Packet.find({ user: req.user.id })
-    .limit(limit)
+  if (req.params.limit)
+    limit = parseInt(req.params.limit);
+
+
+  Packet.find({ user: req.user.id, deviceName: name, createDate:{$gte: new Date(), $lte: new Date()}})
     .sort({ createDate: -1 })
-    .exec(function(err, packet) {
+    .exec(function (err, packet) {
       if (err) res.sendStatus(404);
       res.status(200).json(packet);
     });

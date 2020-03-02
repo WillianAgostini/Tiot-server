@@ -31,12 +31,12 @@ server.on("published", function(packet, client) {
   if (!client) return;
 
   let payload = String(packet.payload);
-  let topic = packet.topic.split("/");
+  let topic = packet.topic;
   console.log(topic);
 
   let data = {
     payload: payload,
-    deviceName: topic[1]
+    deviceName: topic
   };
 
   axios
