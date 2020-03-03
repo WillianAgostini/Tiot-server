@@ -25,11 +25,25 @@ exports.list = function (req, res, next) {
   if (req.params.limit)
     limit = parseInt(req.params.limit);
 
-
-  Packet.find({ user: req.user.id, deviceName: name, createDate:{$gte: new Date(), $lte: new Date()}})
-    .sort({ createDate: -1 })
+  Packet.find({ user: req.user.id, deviceName: name })
     .exec(function (err, packet) {
       if (err) res.sendStatus(404);
       res.status(200).json(packet);
+    });
+};
+
+exports.getPackets = function (req, res, next) {
+  Packet.find({ deviceName: name })
+    .exec(function (err, device) {
+      if (err) res.sendStatus(404);
+      res.status(200).send(device);
+    });
+}
+
+exports.deleteAll = function (req, res, next) {
+  Packet.deleteMany()
+    .exec(function (err, device) {
+      if (err) res.sendStatus(404);
+      res.status(200).send(device);
     });
 };

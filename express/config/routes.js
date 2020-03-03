@@ -31,7 +31,7 @@ function authenticate(req, res, next) {
   });
 }
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.post("/signup", users.signup);
   app.post("/login", users.login);
 
@@ -45,4 +45,6 @@ module.exports = function(app) {
   app.get("/packet/:name/:limit", authenticate, packet.list);
   app.get("/packet/:name", authenticate, packet.list);
   app.post("/packet/", packet.create);
+  app.delete("/packet", authenticate, packet.deleteAll);
+
 };
