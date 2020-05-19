@@ -26,13 +26,27 @@ server.on('published', function(packet, client) {
   // console.log("Published", packet);
 
   if (!client) return;
+
   if (packet.topic.endsWith('min') || packet.topic.endsWith('max') ||
-      packet.topic.endsWith('action'))
+      packet.topic.endsWith('action') || packet.topic.endsWith('status'))
     return;
+
 
   let payload = String(packet.payload);
   let topic = packet.topic;
   console.log(topic);
+
+
+  if (packet.topic.endsWith('ip')) {
+    let url = 'http://localhost:3000/device/' + topic + '/' + payload
+    axios.put(url, {})
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+  }
 
   let data = {payload: payload, deviceName: topic};
 

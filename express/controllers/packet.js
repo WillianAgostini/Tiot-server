@@ -9,19 +9,21 @@ exports.create = function(req, res, next) {
         {deviceName: req.body.deviceName}, {}, {sort: {'createDate': -1}},
         function(err, lastPacket) {
           if (err) return res.status(400).send(err.message);
-          let lastMin = lastPacket.createDate.getMinutes()
 
           let packet = new Packet({
             payload: req.body.payload,
             // user: device.user,
             deviceName: req.body.deviceName
           });
-          let nowMin = packet.createDate.getMinutes()
 
-          if (lastMin == nowMin) {
-            console.log('packet not Saved.');
+          if (lastPacket) {
+            let nowMin = packet.createDate.getMinutes()
+            let lastMin = lastPacket.createDate.getMinutes()
 
-            return res.sendStatus(202);
+            if (lastMin == nowMin) {
+              console.log('packet not Saved.');
+              return res.sendStatus(202);
+            }
           }
           packet.save(err => {
             console.log('packet Saved!');

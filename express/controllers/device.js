@@ -34,7 +34,19 @@ exports.update =
       })
 }
 
-    exports.list = function(req, res, next) {
+    exports.setIp =
+        function(req, res, next) {
+  const filter = {name: req.params.name};
+  const update = {ip: req.params.ip};
+  Device.findOneAndUpdate(filter, update).exec(function(err, device) {
+    if (err) res.sendStatus(404);
+    res.status(200).json(device);
+  })
+}
+
+
+
+        exports.list = function(req, res, next) {
   User.findById(req.user.id).populate('devices').exec(function(err, user) {
     if (err) res.sendStatus(404);
     res.status(200).json(user.devices);

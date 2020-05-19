@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const Device = new Schema({
   name: {type: String, unique: true, required: true},
+  ip: {type: String, default: null},
   createDate: {type: Date, default: Date.now},
   user: {type: Schema.Types.ObjectId, ref: 'User'}
 });

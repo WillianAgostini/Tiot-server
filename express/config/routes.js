@@ -43,6 +43,9 @@ module.exports = function(app) {
   app.post('/devices/', authenticate, device.create);
   app.delete('/devices/:id', authenticate, device.delete);
 
+  app.put('/device/:name/ip/:ip', device.setIp);
+
+
   app.get('/packet/:name/:limit', authenticate, packet.list);
   app.get('/packet/:name', authenticate, packet.list);
   app.post('/packet/', packet.create);
