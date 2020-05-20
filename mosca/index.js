@@ -32,6 +32,8 @@ server.on('published', function(packet, client) {
 
   let payload = String(packet.payload);
   let topic = packet.topic;
+  console.log(topic, payload);
+
 
   if (packet.topic.endsWith('ip')) {
     let url = 'http://localhost:3000/device/' + topic + '/' + payload
