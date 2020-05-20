@@ -15,7 +15,7 @@ var settings = {port: 1883, backend: ascoltatore};
 
 var server = new mosca.Server(settings);
 server.attachHttpServer(httpServ);
-httpServ.listen(8080);
+httpServ.listen(3001);
 
 server.on('clientConnected', function(client) {
   // console.log("client connected", client.id);
