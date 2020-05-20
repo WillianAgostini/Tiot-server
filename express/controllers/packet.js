@@ -21,12 +21,10 @@ exports.create = function(req, res, next) {
             let lastMin = lastPacket.createDate.getMinutes()
 
             if (lastMin == nowMin) {
-              console.log('packet not Saved.');
               return res.sendStatus(202);
             }
           }
           packet.save(err => {
-            console.log('packet Saved!');
             if (err) return res.status(400).send(err.message);
             res.sendStatus(201);
           });
