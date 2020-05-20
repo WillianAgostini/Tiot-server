@@ -23,8 +23,6 @@ server.on('clientConnected', function(client) {
 
 // fired when a message is received
 server.on('published', function(packet, client) {
-  // console.log("Published", packet);
-
   if (!client) return;
 
   if (packet.topic.endsWith('min') || packet.topic.endsWith('max') ||
@@ -34,29 +32,28 @@ server.on('published', function(packet, client) {
 
   let payload = String(packet.payload);
   let topic = packet.topic;
-  console.log(topic);
-
 
   if (packet.topic.endsWith('ip')) {
     let url = 'http://localhost:3000/device/' + topic + '/' + payload
     axios.put(url, {})
         .then(function(response) {
-          console.log(response);
+          console.log(response.status);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+  } else {
+    let data = {payload: payload, deviceName: topic};
+
+    axios.post('http://localhost:3000/packet', data)
+        .then(function(response) {
+          console.log(response.status);
         })
         .catch(function(error) {
           console.log(error);
         });
   }
-
-  let data = {payload: payload, deviceName: topic};
-
-  axios.post('http://localhost:3000/packet', data)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
 });
 
 server.on('ready', setup);
