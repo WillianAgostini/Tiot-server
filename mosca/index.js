@@ -34,7 +34,6 @@ server.on('published', function(packet, client) {
   let topic = packet.topic;
   console.log(topic, payload);
 
-
   if (packet.topic.endsWith('ip')) {
     let url = 'http://localhost:3000/device/' + topic + '/' + payload
     axios.put(url, {})
@@ -44,9 +43,15 @@ server.on('published', function(packet, client) {
         .catch(function(error) {
           console.log(error);
         });
+  }
 
-  } else {
-    let data = {payload: payload, deviceName: topic};
+  if (packet.topic.endsWith('packet')) {
+    payload = payload.split('/');
+    let data = {
+      payload: payload[0],
+      status: payload[1],
+      deviceName: topic.split('/')[0]
+    };
 
     axios.post('http://localhost:3000/packet', data)
         .then(function(response) {

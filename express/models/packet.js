@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Packet = new Schema({
   payload: String,
   deviceName: String,
+  status: Boolean,
   // user: { type: Schema.Types.ObjectId, ref: "User" },
   createDate: {type: Date, default: Date.now}
 });

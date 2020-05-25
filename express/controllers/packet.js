@@ -13,7 +13,8 @@ exports.create = function(req, res, next) {
           let packet = new Packet({
             payload: req.body.payload,
             // user: device.user,
-            deviceName: req.body.deviceName
+            deviceName: req.body.deviceName,
+            status: req.body.status
           });
 
           if (lastPacket) {
