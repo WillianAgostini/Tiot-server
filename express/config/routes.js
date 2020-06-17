@@ -4,6 +4,7 @@ var userModel = require('../models/user');
 var users = require('../controllers/user');
 var device = require('../controllers/device');
 var packet = require('../controllers/packet');
+var recipe = require('../controllers/recipe');
 
 const permit = new Bearer({
   basic: String,
@@ -50,4 +51,7 @@ module.exports = function(app) {
   app.get('/packet/:name', authenticate, packet.list);
   app.post('/packet/', packet.create);
   app.delete('/packet', authenticate, packet.deleteAll);
+
+  app.post('/recipes/', authenticate, recipe.create);
+  app.delete('/recipes/:id', authenticate, recipe.delete);
 };
