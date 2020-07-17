@@ -35,16 +35,40 @@ exports.create = function(req, res, next) {
 
 exports.list = function(req, res, next) {
   let name = req.params.name;
-  limit = 60;
 
-  if (req.params.limit) limit = parseInt(req.params.limit);
-
-  Packet.find({deviceName: name})
-      .limit(limit)
-      .sort({'createDate': -1})
-      .exec(function(err, packet) {
+  let min_date = new Date(req.params.min_date);
+  Packet.find({deviceName: name, createDate: {$gte: min_date}})
+      .sort('createDate')
+      .exec(function(err, packets) {
         if (err) res.sendStatus(404);
-        res.status(200).json(packet);
+
+        const diffTime = Math.abs(new Date() - min_date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const now = new Date();
+        let response = [];
+
+        for (let index = 0; index < diffDays; index++) {
+          let indexDate = new Date(
+              now.getFullYear(), now.getMonth(), now.getDate() - index);
+
+          let packet = packets.find(
+              x => x.createDate.getFullYear() == indexDate.getFullYear() &&
+                  x.createDate.getMonth() == indexDate.getMonth() &&
+                  x.createDate.getDay() == indexDate.getDay());
+
+          if (packet != undefined) {
+            response.push(packet);
+          } else {
+            response.push(new Packet({
+              payload: undefined,
+              deviceName: undefined,
+              status: undefined,
+              createDate: indexDate
+            }))
+          }
+        }
+
+        return res.status(200).json(response);
       });
 };
 
