@@ -39,14 +39,14 @@ exports.list = async (req, res, next) => {
   let response = [];
 
   try {
-    if (req.params.min_date == 0) {
+    if (req.params.min_date == 0 || req.params.min_date == '0') {
       for (let index = 24; index >= 0; index--) {
         let indexDateStart = new Date(
             now.getFullYear(), now.getMonth(), now.getDate(),
-            now.getHours() - index, now.getMinutes());
+            now.getHours() - index, 0, 0);
         let indexDateEnd = new Date(
             now.getFullYear(), now.getMonth(), now.getDate(),
-            now.getHours() - index, now.getMinutes());
+            now.getHours() - index + 1, 0, -1);
 
         let packet = await Packet
                          .findOne({
