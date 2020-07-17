@@ -42,11 +42,46 @@ exports.list = async (req, res, next) => {
   let response = [];
 
   try {
+    if (diffDays == 1) {
+      for (let index = 24; index >= 0; index--) {
+        let indexDateStart = new Date(
+            now.getFullYear(), now.getMonth(), now.getDate(),
+            now.getHours() - index, now.getMinutes());
+        let indexDateEnd = new Date(
+            now.getFullYear(), now.getMonth(), now.getDate(),
+            now.getHours() - index, now.getMinutes());
+
+        let packet = await Packet
+                         .findOne({
+                           deviceName: name,
+                           createDate: {$gte: indexDateStart, $lt: indexDateEnd}
+                         })
+                         .exec()
+
+        if (packet) {
+          response.push(packet);
+        }
+        else {
+          if (response.length > 0) {
+            response.push(new Packet({
+              payload: undefined,
+              deviceName: name,
+              status: undefined,
+              createDate: indexDateStart
+            }))
+          }
+        }
+      }
+      return res.status(200).json(response);
+    };
+
+
     for (let index = diffDays; index >= 0; index--) {
       let indexDateStart =
           new Date(now.getFullYear(), now.getMonth(), now.getDate() - index);
       let indexDateEnd = new Date(
           now.getFullYear(), now.getMonth(), now.getDate() - index + 1);
+
       let packet = await Packet
                        .findOne({
                          deviceName: name,
