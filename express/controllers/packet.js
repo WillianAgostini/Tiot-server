@@ -55,12 +55,14 @@ exports.list = async (req, res, next) => {
         response.push(packet);
       }
       else {
-        response.push(new Packet({
-          payload: undefined,
-          deviceName: undefined,
-          status: undefined,
-          createDate: indexDateStart
-        }))
+        if (response.length > 0) {
+          response.push(new Packet({
+            payload: undefined,
+            deviceName: undefined,
+            status: undefined,
+            createDate: indexDateStart
+          }))
+        }
       }
     }
 
