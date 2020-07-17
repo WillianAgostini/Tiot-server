@@ -35,14 +35,11 @@ exports.create = function(req, res, next) {
 
 exports.list = async (req, res, next) => {
   let name = req.params.name;
-  let min_date = new Date(req.params.min_date);
-  const diffTime = Math.abs(new Date() - min_date);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   const now = new Date();
   let response = [];
 
   try {
-    if (diffDays == 1) {
+    if (req.params.min_date == 0) {
       for (let index = 24; index >= 0; index--) {
         let indexDateStart = new Date(
             now.getFullYear(), now.getMonth(), now.getDate(),
@@ -75,6 +72,9 @@ exports.list = async (req, res, next) => {
       return res.status(200).json(response);
     };
 
+    let min_date = new Date(req.params.min_date);
+    const diffTime = Math.abs(new Date() - min_date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     for (let index = diffDays; index >= 0; index--) {
       let indexDateStart =
