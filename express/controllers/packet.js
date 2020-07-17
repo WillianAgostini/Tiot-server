@@ -47,10 +47,12 @@ exports.list = async (req, res, next) => {
           new Date(now.getFullYear(), now.getMonth(), now.getDate() - index);
       let indexDateEnd = new Date(
           now.getFullYear(), now.getMonth(), now.getDate() - index + 1);
-      let packet =
-          await Packet
-              .findOne({createDate: {$gte: indexDateStart, $lt: indexDateEnd}})
-              .exec()
+      let packet = await Packet
+                       .findOne({
+                         deviceName: name,
+                         createDate: {$gte: indexDateStart, $lt: indexDateEnd}
+                       })
+                       .exec()
       if (packet) {
         response.push(packet);
       }
@@ -58,7 +60,7 @@ exports.list = async (req, res, next) => {
         if (response.length > 0) {
           response.push(new Packet({
             payload: undefined,
-            deviceName: undefined,
+            deviceName: name,
             status: undefined,
             createDate: indexDateStart
           }))
