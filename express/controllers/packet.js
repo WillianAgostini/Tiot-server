@@ -42,7 +42,7 @@ exports.list = async (req, res, next) => {
   let response = [];
 
   try {
-    for (let index = 0; index < diffDays; index++) {
+    for (let index = diffDays; index >= 0; index--) {
       let indexDateStart =
           new Date(now.getFullYear(), now.getMonth(), now.getDate() - index);
       let indexDateEnd = new Date(
